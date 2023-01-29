@@ -7,6 +7,8 @@ import {
   HttpStatus,
   Param,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { PersonType, ResponseMsg } from './interfaces/person.interface';
@@ -18,11 +20,12 @@ export class PersonsController {
 
   @Get()
   @HttpCode(200)
-  async findAllPersons(): Promise<PersonType[]> {
+  async findAllPersons(): Promise<CreatePersonDto[]> {
     return this.personService.findAllPersons();
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
   @HttpCode(201)
   async createPerson(@Body() person: CreatePersonDto): Promise<ResponseMsg> {
     return this.personService.createPerson(person);

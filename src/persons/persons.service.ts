@@ -1,19 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { PersonType, ResponseMsg } from './interfaces/person.interface';
+import { CreatePersonDto } from './dto/create-person.dto';
 
 @Injectable()
 export class PersonsService {
-  private readonly persons: PersonType[] = [];
+  private readonly persons: CreatePersonDto[] = [];
 
-  async createPerson(person: PersonType): Promise<ResponseMsg> {
-    this.persons.push(person);
+  async createPerson(person: CreatePersonDto): Promise<ResponseMsg> {
+    const { name, age } = person;
+    this.persons.push({
+      name,
+      age,
+    });
     return {
       success: true,
       msg: 'Person created successfully',
     };
   }
 
-  async findAllPersons(): Promise<PersonType[]> {
+  async findAllPersons(): Promise<CreatePersonDto[]> {
     return this.persons;
   }
 
